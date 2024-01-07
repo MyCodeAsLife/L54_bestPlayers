@@ -9,70 +9,66 @@ namespace L54_bestPlayers
         static void Main(string[] args)
         {
             Server server = new Server();
+            int topPlayersCount = 3;
 
-            server.ShowTopPlayers();
+            server.ShowTopPlayers(topPlayersCount);
         }
     }
 
     class Server
     {
         private List<Player> _players = new List<Player>();
-        private Random _random;
-
-        private int _topPlayersCount = 3;
 
         public Server()
         {
-            _random = new Random();
-            FillServer();
+            FillDatabase();
         }
 
-        public void ShowTopPlayers()
+        public void ShowTopPlayers(int amount)
         {
             List<Player> bestInLevel = _players.OrderByDescending(player => player.Level).ToList();
             List<Player> bestInStrength = _players.OrderByDescending(player => player.Strenght).ToList();
 
-            Console.WriteLine($"Топ {_topPlayersCount} игрока(ов) по уровню:");
+            Console.WriteLine($"Топ {amount} игрока(ов) по уровню:");
             int maxLoginLenght = bestInLevel.Max(player => player.Name.Length);
 
-            for (int i = 0; i < _topPlayersCount; i++)
+            for (int i = 0; i < amount; i++)
                 Console.WriteLine($"{{0, 4}} {{1, -{maxLoginLenght}}} {{2,12}}", "Ник:", $"{bestInLevel[i].Name}", $"Уровень: {bestInLevel[i].Level}");
 
             Console.WriteLine();
-            Console.WriteLine($"Топ {_topPlayersCount} игрока(ов) по силе:");
+            Console.WriteLine($"Топ {amount} игрока(ов) по силе:");
             maxLoginLenght = bestInLevel.Max(player => player.Name.Length);
 
-            for (int i = 0; i < _topPlayersCount; i++)
+            for (int i = 0; i < amount; i++)
                 Console.WriteLine($"{{0, 4}} {{1, -{maxLoginLenght}}} {{2,12}}", "Ник:", $"{bestInLevel[i].Name}", $"Сила: {bestInLevel[i].Level}");
         }
 
-        private void FillServer()
+        private void FillDatabase()
         {
-            _players.Add(new Player("Убиватор3000", _random));
-            _players.Add(new Player("Сакура", _random));
-            _players.Add(new Player("ПилимНоги", _random));
-            _players.Add(new Player("GGJHH^&*", _random));
-            _players.Add(new Player("ゆうとみんと", _random));
-            _players.Add(new Player("В_забой", _random));
-            _players.Add(new Player("Твоя МаМка ЕпТа", _random));
-            _players.Add(new Player("Водаврот", _random));
-            _players.Add(new Player("100gramoВИЧ", _random));
-            _players.Add(new Player("COCOK_B_NOCOK", _random));
+            _players.Add(new Player("Убиватор3000"));
+            _players.Add(new Player("Сакура"));
+            _players.Add(new Player("ПилимНоги"));
+            _players.Add(new Player("GGJHH^&*"));
+            _players.Add(new Player("ゆうとみんと"));
+            _players.Add(new Player("В_забой"));
+            _players.Add(new Player("Твоя МаМка ЕпТа"));
+            _players.Add(new Player("Водаврот"));
+            _players.Add(new Player("100gramoВИЧ"));
+            _players.Add(new Player("COCOK_B_NOCOK"));
         }
     }
 
     class Player
     {
-        private Random _random;
-        private int _maxLevel = 30;
-        private int _maxStrenght = 68;
-
-        public Player(string name, Random random)
+        public Player(string name)
         {
-            _random = random;
+            int maxLevel = 30;
+            int maxStrenght = 68;
+            Random random = new Random();
+
             Name = name;
-            Level = _random.Next(_maxLevel + 1);
-            Strenght = _random.Next(_maxStrenght + 1);
+            Level = random.Next(maxLevel + 1);
+            Strenght = random.Next(maxStrenght + 1);
         }
 
         public string Name { get; private set; }
